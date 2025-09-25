@@ -1,0 +1,12 @@
+<h1>To-do list</h1>
+<input value = "{{taskInput}}" (input)= "onInput($event)" type="text" placeholder="New task">
+<button (click)= "onCLick()">Add</button>
+<ul>
+  @for (task of taskList; track task) {
+  <li>
+    {{task}}
+    <!-- <button (click)="onDelete(task)">Delete</button> -->
+  </li>
+  }
+  
+</ul>
