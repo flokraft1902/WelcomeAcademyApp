@@ -1,0 +1,212 @@
+# Todo API Documentation
+
+## Base URL
+```
+http://localhost:3000
+```
+
+## Endpoints
+
+### Health Check
+- **GET** `/health`
+- **Description**: Check if the API is running
+- **Response**: 
+```json
+{
+  "success": true,
+  "message": "Todo API is running",
+  "timestamp": "2025-01-11T10:30:00.000Z",
+  "version": "1.0.0"
+}
+```
+
+### Get All Todos
+- **GET** `/api/todos`
+- **Query Parameters** (optional):
+  - `completed`: Filter by completion status (true/false)
+  - `search`: Search in title and description
+- **Response**:
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "title": "Learn Node.js",
+      "description": "Study Express.js and build APIs",
+      "completed": false,
+      "createdAt": "2025-01-11T10:30:00.000Z",
+      "updatedAt": "2025-01-11T10:30:00.000Z"
+    }
+  ],
+  "count": 1
+}
+```
+
+### Get Single Todo
+- **GET** `/api/todos/:id`
+- **Response**:
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "title": "Learn Node.js",
+    "description": "Study Express.js and build APIs",
+    "completed": false,
+    "createdAt": "2025-01-11T10:30:00.000Z",
+    "updatedAt": "2025-01-11T10:30:00.000Z"
+  }
+}
+```
+
+### Create Todo
+- **POST** `/api/todos`
+- **Body**:
+```json
+{
+  "title": "New Todo",
+  "description": "Todo description (optional)"
+}
+```
+- **Response**:
+```json
+{
+  "success": true,
+  "data": {
+    "id": 3,
+    "title": "New Todo",
+    "description": "Todo description",
+    "completed": false,
+    "createdAt": "2025-01-11T10:30:00.000Z",
+    "updatedAt": "2025-01-11T10:30:00.000Z"
+  },
+  "message": "Todo created successfully"
+}
+```
+
+### Update Todo
+- **PUT** `/api/todos/:id`
+- **Body** (all fields optional):
+```json
+{
+  "title": "Updated Title",
+  "description": "Updated description",
+  "completed": true
+}
+```
+- **Response**:
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "title": "Updated Title",
+    "description": "Updated description",
+    "completed": true,
+    "createdAt": "2025-01-11T10:30:00.000Z",
+    "updatedAt": "2025-01-11T10:31:00.000Z"
+  },
+  "message": "Todo updated successfully"
+}
+```
+
+### Toggle Todo Completion
+- **PATCH** `/api/todos/:id/toggle`
+- **Response**:
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "title": "Learn Node.js",
+    "description": "Study Express.js and build APIs",
+    "completed": true,
+    "createdAt": "2025-01-11T10:30:00.000Z",
+    "updatedAt": "2025-01-11T10:31:00.000Z"
+  },
+  "message": "Todo marked as completed"
+}
+```
+
+### Delete Single Todo
+- **DELETE** `/api/todos/:id`
+- **Response**:
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "title": "Learn Node.js",
+    "description": "Study Express.js and build APIs",
+    "completed": false,
+    "createdAt": "2025-01-11T10:30:00.000Z",
+    "updatedAt": "2025-01-11T10:30:00.000Z"
+  },
+  "message": "Todo deleted successfully"
+}
+```
+
+### Delete All Completed Todos
+- **DELETE** `/api/todos`
+- **Response**:
+```json
+{
+  "success": true,
+  "message": "Deleted 2 completed todos",
+  "deletedCount": 2
+}
+```
+
+## Error Responses
+
+### Validation Error (400)
+```json
+{
+  "success": false,
+  "error": "Validation failed",
+  "details": ["Title is required"]
+}
+```
+
+### Not Found (404)
+```json
+{
+  "success": false,
+  "error": "Todo not found"
+}
+```
+
+### Server Error (500)
+```json
+{
+  "success": false,
+  "error": "Internal server error"
+}
+```
+
+## Example Usage with curl
+
+### Get all todos
+```bash
+curl http://localhost:3000/api/todos
+```
+
+### Create a new todo
+```bash
+curl -X POST http://localhost:3000/api/todos \
+  -H "Content-Type: application/json" \
+  -d '{"title": "New Task", "description": "Task description"}'
+```
+
+### Update a todo
+```bash
+curl -X PUT http://localhost:3000/api/todos/1 \
+  -H "Content-Type: application/json" \
+  -d '{"completed": true}'
+```
+
+### Delete a todo
+```bash
+curl -X DELETE http://localhost:3000/api/todos/1
+```
